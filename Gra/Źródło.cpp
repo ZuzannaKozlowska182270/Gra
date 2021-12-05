@@ -28,3 +28,10 @@ int main()
         window.clear();
         window.display();
     }
+    
+      void Gra::spawn_przeciwnicy() {
+
+        this->enemy.setPosition(
+            rand()%this->window->getSize().x)
+            );
+    }
