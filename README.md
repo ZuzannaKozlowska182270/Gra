@@ -1,7 +1,7 @@
 # Informatyka projekt
-
-Temat projektu: Symulator krewetki
+*zmiana koncepcji projektu
+Temat projektu: 
 
 Zakres indywidualny: 
-- Tryb singleplayer: gra będzie mieć przesuwające się w prawo tło wraz ruchem głównej postaci - krewetki. Gra polega na unikaniu przeciwników (ryb), które będą nadpływać z losowej pozycji. Spotkanie z rybą skutkuje zabraniem części życia. Regenerowanie się odbywa poprzez uczepianie się konkretnych punktów na drodze, im dłużej tym więcej punktów życia się przywraca. W grze przewiduję poziomy oraz wybór trudności (prędkości poruszania się planszy).
-- Tryb multiplayer: w tym trybie dołączyć może drugi gracz, sterujący drugą krewetką. Wygrywa ten, który zajdzie dalej.
+- Tryb singleplayer: gra polega na sterowaniu postacię w celu uniknięcia zestrzelenia przez przeciwnika. Postać poruszana jest na pomocą strzałek, w lewo, prawo a także może skakać. Przeciwnik porusza się losowo w płaszczyźnie horyzontalnie u góry okna. Dodatkowo na planszy znajdują się dwa bloczki, pod którymi postać może się schować, jednak losowo pod nimi pojawia się bomba zabierająca życie. Celem gry jest jak najdłuższe przetrwanie.
+- Tryb multiplayer: w tym trybie jest możliwość sterowania przeciwnikiem przez drugiego gracza.
