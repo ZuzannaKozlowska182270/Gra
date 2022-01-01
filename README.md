@@ -1,5 +1,5 @@
 # Informatyka projekt
-*zmiana koncepcji projektu
+
 Temat projektu: 
 
 Zakres indywidualny: 
