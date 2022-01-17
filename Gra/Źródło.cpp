@@ -1,3 +1,8 @@
+// Hello world! Cplayground is an online sandbox that makes it easy to try out
+// code.
+
+
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <SFML/Graphics.hpp>
 #include<iostream>
@@ -103,7 +108,7 @@ void players_to_file()                              //ZAPIS DANYCH O GRACZACH
     strcpy(playerschar[9].nazwa, "Amy");
 
     for (int i = 0; i < 10; i++)
-        playerschar[i].liczb_pkt = rand() % 5000;   //generowanie losowych wynikow graczy w rankingu
+        playerschar[i].liczb_pkt = rand() % 5000;   //generowanie losowych wynikow 10 graczy w rankingu
     playerschar[0].plec = 'm';
     playerschar[1].plec = 'w';
     playerschar[2].plec = 'm';
@@ -135,7 +140,7 @@ int porownaj(const void* left, const void* right) {
 class players_list {
 private:
     sf::Text* players;
-    gracz_cechy* player_char;                         
+    gracz_cechy* player_char;
     sf::Font czcionka;
     int Np;
 public:
@@ -249,10 +254,44 @@ public:
 
         }
         xPos += xV;                     // przesuwa pozycje gracza
-       
+
     }
 };
+/*class Bullet {
+public:
+    Bullet(sf::Vector2f size) {
+        bullet.setSize(size);
+        bullet.setFillColor(sf::Color::Blue);
+    }
 
+    void fire(int speed) {
+        bullet.move(speed, 0);
+    }
+
+    int getRight() {
+        return bullet.getPosition().x + bullet.getSize().x;
+    }
+
+    int getLeft() {
+        return bullet.getPosition().x;
+    }
+
+    int getTop() {
+        return bullet.getPosition().y;
+    }
+
+    int getBottom() {
+        return bullet.getPosition().y + bullet.getSize().y;
+    }
+
+    void setPos(sf::Vector2f newPos) {
+        bullet.setPosition(newPos);
+    }
+
+private:
+    sf::RectangleShape bullet;
+};
+*/
 
 
 int main()                          //MAIN
@@ -272,44 +311,45 @@ int main()                          //MAIN
 
     Menu menu(window.getSize().x, window.getSize().y);
 
-   
+
     int x = 0, y = 0;//pozycja 
     int dx = 10, dy = 0;
     bool playerLeft, playerRight = false;  //zmienne ruchu
 
-    playerClass playerObject; 
-
-    //pomoc dla gracza F1
+    playerClass playerObject;
+    //std::vector<Bullet> bulletVec;
+    //bool isFiring = false;
+    // 
+    // 
+    //pomoc dla gracza H
     Font sitkaFont;
     sitkaFont.loadFromFile("pliki/sitka.ttf");
-    Text helpText("Strzalka w lewo - ruch w lewo\nStrzalka w prawo - ruch w prawo\nZ - zapisz\nO - wczytaj \nEsc - wyjscie", sitkaFont, 35);
+    Text helpText("Strzalka w lewo - ruch w lewo\nStrzalka w prawo - ruch w prawo\nS - zapisz\n/R - wczytaj \nEsc - wyjscie", sitkaFont, 35);
     helpText.setPosition(Vector2f(50, 150));
     helpText.setFillColor(Color(50, 168, 82));
 
     //Ekran ESC
     Text quitText("E - wyjscie z gry", sitkaFont, 30);
     quitText.setPosition(Vector2f(600, 150));
-    quitText.setFillColor(Color(50, 168, 82)); 
+    quitText.setFillColor(Color(50, 168, 82));
 
     //TYTUL
     Text themeText("Symulator krewetki", sitkaFont, 50);
     themeText.setPosition(Vector2f(250, 0));
 
-                                                                                //sprite ryby
-    Texture enemy1Texture;
+    //sprite ryby
+    Texture enemy1Texture;                                                            //obszar prostokątny sprite’a jakoniezależny obiekt, np..sf::IntRect
     enemy1Texture.loadFromFile("pliki/ryba.png");
-    IntRect rectEnemySprite(0, -12,188,122);
-    Sprite enemySprite(enemy1Texture, rectEnemySprite);                                                                         //Construct the sprite from a sub-rectangle of a source texture
+    IntRect rectEnemySprite(0, -12, 188, 122);
+    Sprite enemySprite(enemy1Texture, rectEnemySprite);                                            //Construct the sprite from a sub-rectangle of a source texture
                                                                             //sprite krewetki
     Texture playerTexture;
     playerTexture.loadFromFile("pliki/krewetka.PNG");
-    IntRect rectSourceSprite(0, 245, 250, 70);                                                                                                                           //setTexture(NULL)
+    IntRect rectSourceSprite(0, 0, 42, 50);                                                                                                                          //setTexture(NULL)
     Sprite playerSprite(playerTexture, rectSourceSprite);
-    playerSprite.setPosition(500.f, 535.f);
+    playerSprite.setPosition(480.f, 535.f);
 
 
-
-    /*******************bloczki dodaci bomby*/
     //sprite dna
     Texture groundTexture;
     groundTexture.loadFromFile("pliki/dno1.png");
@@ -317,7 +357,7 @@ int main()                          //MAIN
     Sprite groundSprite(groundTexture, rectGroundSprite);
     groundSprite.setPosition(10.f, 600.f);
 
-                                                                                     
+
     Text scoreText("tak trzymaj", sitkaFont, 20);
     scoreText.setPosition(Vector2f(600, 500));
     scoreText.setFillColor(Color(230, 115, 0));
@@ -332,7 +372,7 @@ int main()                          //MAIN
     pl->sortuj();
     pl->laduj();
 
-                                      //Petla gry
+    //Petla gry
     while (window.isOpen()) {
         Event event;
 
@@ -393,34 +433,34 @@ int main()                          //MAIN
             if (rectSourceSprite.left == 120)
                 rectSourceSprite.left = 0;
             else
-                rectSourceSprite.left += 40;
+                rectSourceSprite.left += 60;
             playerSprite.setTextureRect(rectSourceSprite);
             clock.restart();
         }
 
 
-                                                                                                                             
+
         helpScreen = false;
-        if (Keyboard::isKeyPressed(Keyboard::F1))helpScreen = true;
+        if (Keyboard::isKeyPressed(Keyboard::H))helpScreen = true;
 
 
-                                                                                                          //sterowanie strzalkami lewo i prawo
+        //sterowanie strzalkami lewo i prawo
         if (Keyboard::isKeyPressed(Keyboard::Right))playerRight = true;
         if (Keyboard::isKeyPressed(Keyboard::Left))playerLeft = true;
         if (!(Keyboard::isKeyPressed(Keyboard::Left)))playerLeft = false;
         if (!(Keyboard::isKeyPressed(Keyboard::Right)))playerRight = false;
         playerObject.update(playerLeft, playerRight);
 
-        if (Keyboard::isKeyPressed(Keyboard::Z)) {
+        if (Keyboard::isKeyPressed(Keyboard::S)) {
             read_flag = 0;              //sprawdza czy wczytac zapis
             ofstream savefile1;
             savefile1.open("playerState.txt", ios::out | ios::trunc);   //utworzenie txt
             savefile1.write((const char*)&playerObject, sizeof(playerObject)); //zapisanie w txt
             savefile1.close();
-            cout << "zapis!\n";
+            cout << "Zapis!\n";
         }
 
-        if (Keyboard::isKeyPressed(Keyboard::O)) {
+        if (Keyboard::isKeyPressed(Keyboard::R)) {
             ifstream savefile2;
             cout << "Odczyt!\n";
             read_flag = 1;
@@ -434,7 +474,7 @@ int main()                          //MAIN
 
 
 
-                                                                    ///losowy ruch przeciwnika, predkosc zalezna od poziomu trudnosci 
+        ///losowy ruch przeciwnika, predkosc zalezna od poziomu trudnosci 
         if (enemyClock.getElapsedTime().asMilliseconds() > 400.0f / difficultyLevel) {
             enemySprite.setPosition(rand() % 1100 + 1, 0.f);
             enemyClock.restart();
@@ -456,20 +496,20 @@ int main()                          //MAIN
             window.draw(themeText);         //tytul gry
         }
 
-        if (isPlaying == true && dead == false) {           
-            
+        if (isPlaying == true && dead == false) {
+
             window.draw(playerSprite);
             window.draw(groundSprite);
             window.draw(enemySprite);
 
             playerSprite.setPosition(playerObject.xPos, 535.f);
 
-                                                                                                                                                                      //EKRAN HELP F1
+            //EKRAN HELP 
             if (helpScreen == true)
                 window.draw(helpText);
 
 
-                                                                                                                                                                      //ekran escape
+            //ekran escape
             if (Keyboard::isKeyPressed(Keyboard::Escape))
                 window.draw(quitText);
 
@@ -482,7 +522,7 @@ int main()                          //MAIN
         if (isPlaying == false && isMenuOpen == false) {                                                                                        //wyswietla wyniki gdy sie nie gra i gdy nie jest sie w menu
             if (dead == true) {
             }
-            pl->draw(window); 
+            pl->draw(window);
         }
         window.display();
 
