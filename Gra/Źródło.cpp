@@ -1,7 +1,3 @@
-// Hello world! Cplayground is an online sandbox that makes it easy to try out
-// code.
-
-
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <SFML/Graphics.hpp>
